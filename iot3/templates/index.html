@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Stream</title>
+    <style>
+        #video_stream {
+            width: 640px;
+            height: 480px;
+        }
+    </style>
+</head>
+<body>
+    <img id="video_stream" alt="Video Stream">
+    <div id="counter" style="color: green; font-size: 24px; margin-top: 10px;">Frame Count: <span id="frameCount">0</span></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('video_frame', function (data) {
+            document.getElementById('video_stream').src = 'data:image/jpeg;base64,' + data.frame;
+            document.getElementById('frameCount').innerText = data.count;
+        });
+    </script>
+</body>
+</html>
